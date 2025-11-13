@@ -3,7 +3,7 @@ name: Test Case Template
 about: Template for creating new test cases.
 title: ''
 labels: TC
-assignees: '${{ github.triggering_actor }}'
+assignees: ''
 
 ---
 
