@@ -1,0 +1,28 @@
+services:
+  jenkins:
+    build: ./jenkins
+    container_name: jenkins
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    environment:
+      - JENKINS_USERNAME=${JENKINS_USERNAME}
+      - JENKINS_PASSWORD=${JENKINS_PASSWORD}
+      - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - ./jenkins/init.groovy.d/basic-security.groovy:/var/jenkins_home/init.groovy.d/basic-security.groovy
+
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: test_playwright
+    depends_on:
+      - jenkins
+    volumes:
+      - ./jenkins/wait_for_jenkins.sh:/wait.sh
+    entrypoint: ["/bin/bash", "-c", "chmod +x /wait.sh && /wait.sh && pytest -s -v  $TESTS"]
+
+volumes:
+  jenkins_home:

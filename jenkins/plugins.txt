@@ -1,0 +1,4 @@
+workflow-aggregator
+workflow-multibranch
+cloudbees-folder
+matrix-project
