@@ -36,3 +36,4 @@ def test_tc_15_001_01(page):
     page.locator(create_btn_loc).click()
     text = page.locator(created_user_loc(username)).text_content()
     assert text == username
+
