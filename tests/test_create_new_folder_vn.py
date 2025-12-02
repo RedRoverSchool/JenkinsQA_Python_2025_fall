@@ -8,7 +8,7 @@ def test_TC_01_002_01(page):
 
     new_folder_name = f"Test_folder_{random.randint(0, 999999)}"
 
-    new_item_btn_loc = "a[href='/view/all/newJob']"
+    new_item_link_loc = "a[href='/view/all/newJob']"
 
     item_name_field_loc = "input[class='jenkins-input']"
     item_type_text = "Folder"
@@ -16,8 +16,7 @@ def test_TC_01_002_01(page):
     save_btn_loc = "button[name='Submit']"
     folder_title_loc = "h1.job-index-headline"
 
-
-    page.locator(new_item_btn_loc).click()
+    page.locator(new_item_link_loc).click()
     page.locator(item_name_field_loc).fill(new_folder_name)
     page.get_by_text(item_type_text, exact=True).click()
     page.locator(ok_btn_loc).click()
@@ -26,14 +25,3 @@ def test_TC_01_002_01(page):
 
     folder_title = page.locator(folder_title_loc)
     expect(folder_title).to_have_text(new_folder_name)
-
-
-
-
-
-
-
-
-
-
-
