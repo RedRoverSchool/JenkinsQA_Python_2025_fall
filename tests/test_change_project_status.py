@@ -1,5 +1,4 @@
-def get_name_loc(name):
-    return f"td > a[href='job/{name}/']"
+
 
 def test_TC_03_001_01(page):
     page.goto("/")
