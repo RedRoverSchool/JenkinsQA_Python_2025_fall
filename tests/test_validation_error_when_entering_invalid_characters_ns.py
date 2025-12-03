@@ -23,15 +23,3 @@ def test_validation_error_invalid_characters(page):
 
 
 
-
-
-
-
-
-
-
-
-
-
-    time.sleep(5)
-
