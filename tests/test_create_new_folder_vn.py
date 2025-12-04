@@ -3,7 +3,7 @@ import random
 from playwright.sync_api import expect
 
 
-def test_TC_01_002_01(page):
+def test_tc_01_002_01_create_new_folder(page):
     page.goto("/")
 
     new_folder_name = f"Test_folder_{random.randint(0, 999999)}"
