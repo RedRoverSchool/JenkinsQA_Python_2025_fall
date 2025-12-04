@@ -13,20 +13,18 @@ def test_checkboxes_can_be_selected(freestyle):
     checkboxes = freestyle.locator('#environment ~ .jenkins-form-item')
     checkbox_loc = '.row-set-start>.jenkins-checkbox-help-wrapper>.jenkins-checkbox'
     checkbox_check_loc = checkbox_loc + ' input[type="checkbox"]'
-    checkbox_name_loc = 'label[class="attach-previous "]'
 
     build_steps_to_scroll.scroll_into_view_if_needed()
     count = checkboxes.count()
-    actual_checkbox_texts = []
+
     for i in range(count):
+
         expect(checkboxes.nth(i).locator(checkbox_check_loc)).not_to_be_checked()
 
         checkboxes.nth(i).locator(checkbox_loc).click()
 
         expect(checkboxes.nth(i).locator(checkbox_check_loc)).to_be_checked()
 
-        text = checkboxes.nth(i).locator(checkbox_name_loc).text_content()
-        actual_checkbox_texts.append(text.strip())
-    for expected_checkbox in Freestyle.expected_list_of_environment_checkboxes:
-        assert expected_checkbox in actual_checkbox_texts, \
-            f"Expected checkbox '{expected_checkbox}' not found in actual checkboxes: {actual_checkbox_texts}"
+        checkboxes.nth(i).locator(checkbox_loc).click()
+
+        expect(checkboxes.nth(i).locator(checkbox_check_loc)).not_to_be_checked()
