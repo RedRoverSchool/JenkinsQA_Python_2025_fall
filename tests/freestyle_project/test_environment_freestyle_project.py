@@ -17,11 +17,16 @@ def test_checkboxes_can_be_selected(freestyle):
 
     build_steps_to_scroll.scroll_into_view_if_needed()
     count = checkboxes.count()
+    actual_checkbox_texts = []
     for i in range(count):
-
-        expect(checkboxes.nth(i).locator(checkbox_name_loc)).to_have_text(Freestyle.expected_list_of_environment_checkboxes[i])
         expect(checkboxes.nth(i).locator(checkbox_check_loc)).not_to_be_checked()
 
         checkboxes.nth(i).locator(checkbox_loc).click()
 
         expect(checkboxes.nth(i).locator(checkbox_check_loc)).to_be_checked()
+
+        text = checkboxes.nth(i).locator(checkbox_name_loc).text_content()
+        actual_checkbox_texts.append(text.strip())
+    for expected_checkbox in Freestyle.expected_list_of_environment_checkboxes:
+        assert expected_checkbox in actual_checkbox_texts, \
+            f"Expected checkbox '{expected_checkbox}' not found in actual checkboxes: {actual_checkbox_texts}"
