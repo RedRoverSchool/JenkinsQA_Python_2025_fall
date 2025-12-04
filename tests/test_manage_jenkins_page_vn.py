@@ -14,7 +14,9 @@ def test_tc_11_003_01_manage_jenkins_page(page):
     page.goto("/")
     page.locator(manage_jenkins_label_loc).click()
 
-    expect(page).to_have_url("http://localhost:8080/manage/")
+    assert page.url.endswith("/manage/")
+
+    print(page.url)
 
     for section in expected_sections:
        sections_loc = page.get_by_role("heading", name=section)
