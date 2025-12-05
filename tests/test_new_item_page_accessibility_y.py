@@ -16,12 +16,3 @@ def test_tc_01_001_08(page):
     expect(page.locator(new_item_header)).to_be_visible()
     expect(page.locator(new_item_breadcrumbs)).to_have_text("New Item")
     assert page.url.endswith("/view/all/newJob")
-
-
-
-
-
-
-
-
-
