@@ -6,17 +6,16 @@ def test_validation_error_invalid_characters(page):
 
     invalid_item_name = "TimItem12!"
 
-    new_item_btn_loc = page.locator("a[href='/view/all/newJob']").click()
+    page.locator("a[href='/view/all/newJob']").click()
 
     item_name_field_loc = page.locator("input[id='name']")
     item_name_field_loc.fill(invalid_item_name)
 
     item_name_invalid_message_loc = page.locator("[id='itemname-invalid']")
-    text_item_message = item_name_invalid_message_loc.text_content()
+    item_name_invalid_message_loc.text_content()
 
+    expect(item_name_invalid_message_loc).to_contain_text("» ‘!’ is an unsafe character")
     expect(item_name_invalid_message_loc).to_be_visible()
 
     button_ok_loc = page.locator("[id='ok-button']")
     expect(button_ok_loc).to_be_disabled()
-
-    time.sleep(5)
