@@ -1,7 +1,8 @@
 from playwright.sync_api import expect
 import random
 
-def test_TC_01_001_03(page):
+
+def test_tc_01_001_03(page):
 
     page.goto("/")
 
