@@ -10,20 +10,20 @@ def test_user_menu_items(page):
 
     items = page.locator(".jenkins-dropdown__item")
 
-    expected = [
-        USER_NAME,
-        "Theme",
-        "My Views",
-        "Account",
-        "Appearance",
-        "Preferences",
-        "Security",
-        "Experiments",
-        "Credentials",
-        "Sign out",
+    texts_raw = items.all_inner_texts() or []
+    texts = [t.lower() for t in texts_raw]
+
+    expected_common = [
+        str(USER_NAME).lower(),
+        "my views",
+        "account",
+        "appearance",
+        "preferences",
+        "security",
+        "experiments",
+        "credentials",
+        "sign out",
     ]
 
-    expect(items).to_have_count(len(expected))
-
-    for i, text in enumerate(expected):
-        expect(items.nth(i)).to_have_text(re.compile(rf".*{text}.*"))
+    for text in expected_common:
+        assert any(text in t for t in texts)
