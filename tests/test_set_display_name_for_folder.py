@@ -5,7 +5,6 @@ import random
 def test_set_display_name_for_folder(page):
     page.goto("/")
 
-    new_item_link_loc = "a[href='newJob']"
     ok_button_loc = "button[id='ok-button']"
     save_button_loc = "button[name='Submit']"
     logo_jenkins_loc = "a[href='/']"
@@ -16,7 +15,7 @@ def test_set_display_name_for_folder(page):
     display_name = "The Displayed Name of the Folder"
     error_message = "Display Name was not found in Configuration."
 
-    page.locator(new_item_link_loc).click()
+    page.get_by_text("New Item").click()
     page.fill("input#name", project_folder_name)
     page.get_by_text(item_type_text, exact=True).click()
     page.locator(ok_button_loc).click()
