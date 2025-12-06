@@ -35,7 +35,7 @@ def test_user_profile_page(page):
     page.locator(f"a[href='/user/{USER_NAME}']").click()
 
     user_icon = page.locator("svg.jenkins-avatar").first
-    user_name = page.locator("#side-panel h1")
+    user_name = page.get_by_role("heading", name=re.compile(rf".*{USER_NAME}.*", re.IGNORECASE)).first
     description_link = page.locator("a#description-link")
     description_textarea = page.locator("textarea[name='description']")
 
