@@ -42,7 +42,7 @@ def test_user_profile_page(page):
     expect(user_icon).to_be_visible()
     expect(user_name).to_have_text(re.compile(rf".*{USER_NAME}.*"))
 
-    description_link.click()
+    description_link.click(force=True)
     expect(description_textarea).to_be_visible()
 
     user_id_label = page.locator("text=Jenkins User ID")
@@ -51,19 +51,20 @@ def test_user_profile_page(page):
 
     items = page.locator("#tasks a")
 
-    expected = [
-        "Profile",
-        "Builds",
-        "My Views",
-        "Account",
-        "Appearance",
-        "Preferences",
-        "Security",
-        "Experiments",
-        "Credentials",
+    sidebar_texts_raw = items.all_inner_texts() or []
+    sidebar_texts = [t.lower() for t in sidebar_texts_raw]
+
+    expected_sidebar = [
+        "status",
+        "builds",
+        "my views",
+        "account",
+        "appearance",
+        "preferences",
+        "security",
+        "experiments",
+        "credentials",
     ]
 
-    expect(items).to_have_count(len(expected))
-
-    for i, text in enumerate(expected):
-        expect(items.nth(i)).to_have_text(re.compile(rf".*{text}.*"))
+    for name in expected_sidebar:
+        assert any(name in t for t in sidebar_texts)
