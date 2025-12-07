@@ -1,0 +1,25 @@
+import random
+import string
+
+
+def test_tc_01_005_03(page):
+    """локатор кнопки new item"""
+    new_job_loc = "a[href='newJob']"
+    """Локатор кнопки Multibranch pipeline"""
+    pipeline_multi_loc = "Freestyle project"
+    field_name_loc = "input[name='name']"
+    button_ok_loc = "button[id='ok-button']"
+    jenkins_logo_loc = "img[id='jenkins-head-icon']"
+    created_item_loc = lambda name: f"td > a[href='job/{name}/']"
+    """Случайное имя нового айтема"""
+    name_item = ''.join(random.choices(string.ascii_lowercase, k=5))
+
+    page.goto("/")
+    page.locator(new_job_loc).click()
+    page.locator(field_name_loc).fill(name_item)
+    page.get_by_text(pipeline_multi_loc).click()
+    page.locator(button_ok_loc).click()
+    page.locator(jenkins_logo_loc).click()
+
+    text = page.locator(created_item_loc(name_item)).text_content()
+    assert text == name_item
