@@ -1,4 +1,5 @@
-import time
+import random
+import string
 
 
 def test_tc_01_005_01(page):
@@ -6,13 +7,19 @@ def test_tc_01_005_01(page):
     new_item_loc = "a[href='/view/all/newJob']"
     """Локатор кнопки Multibranch pipeline"""
     pipeline_multi_loc = "Freestyle project"
-    """Локатор сообщения о пустом поле"""
-    message_loc = "div#itemname-required"
-    message = "» This field cannot be empty, please enter a valid name"
+    field_name_loc = "input[name='name']"
+    button_ok_loc = "button[id='ok-button']"
+    jenkins_logo_loc = "img[id='jenkins-head-icon']"
+    created_item_loc = lambda name: f"td > a[href='job/{name}/']"
+    """Случайное имя нового айтема"""
+    name_item = ''.join(random.choices(string.ascii_lowercase, k=5))
 
     page.goto("/")
     page.locator(new_item_loc).click()
+    page.locator(field_name_loc).fill(name_item)
     page.get_by_text(pipeline_multi_loc).click()
-    """Проверка, что текст сообщения об ошибке появляется на странице"""
-    assert  message in page.text_content(message_loc)
+    page.locator(button_ok_loc).click()
+    page.locator(jenkins_logo_loc).click()
 
+    text = page.locator(created_item_loc(name_item)).text_content()
+    assert text == name_item
