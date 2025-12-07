@@ -28,8 +28,12 @@ def test_tc_01_001_14(page):
     expect(page.get_by_text(item_type_text_folder, exact=True)).to_be_visible()
     expect(page.get_by_text(item_type_text_multibranch_pipeline, exact=True)).to_be_visible()
     expect(page.get_by_text(item_type_text_organization_folder, exact=True)).to_be_visible()
+
+    copy_from = page.locator(copy_from_field)
+    copy_from.scroll_into_view_if_needed()
+    expect(copy_from).to_be_visible()
+
     expect(page.locator(ok_btn_loc)).to_be_visible()
-    expect(page.locator(copy_from_field)).to_be_visible()
 
 
 
