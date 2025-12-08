@@ -30,14 +30,15 @@ jobs:
           files: |
             tests/**/*.py
 
-      - name: Save changed tests list
+      - name: Save changed tests list (fix folder name)
         run: |
           if [ "${{ steps.changed-tests.outputs.any_changed }}" = "true" ]; then
-            echo "CHANGED_TESTS=${{ steps.changed-tests.outputs.all_changed_files }}" >> $GITHUB_ENV
+            # исправляем путь pipeline_project → pipeline_projects
+            FIXED_TESTS=$(echo "${{ steps.changed-tests.outputs.all_changed_files }}" | sed 's/pipeline_project/pipeline_projects/g')
+            echo "CHANGED_TESTS=$FIXED_TESTS" >> $GITHUB_ENV
           else
             echo "No test changes — running ALL tests"
             echo "CHANGED_TESTS=\"tests\"" >> $GITHUB_ENV
-          fi
 
       - name: Create .env file for docker-compose
         run: |
@@ -47,8 +48,8 @@ jobs:
           echo "PORT=${PORT}" >> .env
           echo "HEADLESS_MODE=${HEADLESS_MODE}" >> .env
 
-      - name: Run Docker Compose (only changed tests)
+      - name: Run Docker Compose
         env:
           TESTS: ${{ env.CHANGED_TESTS }}
         run: |
-            docker compose up --build --abort-on-container-exit --exit-code-from tests
+          docker compose up --build --abort-on-container-exit --exit-code-from tests
