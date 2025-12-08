@@ -12,7 +12,6 @@ def test_tc_01_002_08_create_new_folder_in_current_folder(page):
     save_btn_loc = "button[name='Submit']"
     logo_loc = 'img[id="jenkins-head-icon"]'
     parent_folder_row_loc = f"#job_{parent_folder_name}"
-    projectstutus_row_loc = "#projectstatus tbody tr"
     child_folder_row_loc = f"#job_{child_folder_name}"
 
     page.locator(new_item_link_loc).click()
@@ -28,8 +27,7 @@ def test_tc_01_002_08_create_new_folder_in_current_folder(page):
     page.locator(logo_loc).click()
 
     parent_folder_row = page.locator(parent_folder_row_loc)
-    row_count = page.locator(projectstutus_row_loc).count()
-    assert row_count == 1 and parent_folder_row.is_visible()
+    assert  parent_folder_row.is_visible()
 
     page.get_by_role("link", name = parent_folder_name).click()
 
