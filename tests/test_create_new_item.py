@@ -6,7 +6,7 @@ from playwright.sync_api import expect
 def test_create_new_item(page):
     page.goto("/")
 
-    page.locator("a[it='hudson.model.Hudson@16bae93d']").click()
+    page.locator("a[href='/view/all/newJob']").click()
 
     pipeline_name = "Pipeline1"
     page.locator("input[id='name']").fill(pipeline_name)
