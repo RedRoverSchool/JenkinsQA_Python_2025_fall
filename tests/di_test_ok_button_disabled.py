@@ -18,8 +18,6 @@ def test_ok_disabled_when_name_empty():
         page.click("text=Pipeline")
 
         expect(page.locator("#ok-button")).to_be_disabled()
-
-
         page.close()
 
 
