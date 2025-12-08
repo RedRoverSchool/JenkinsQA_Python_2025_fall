@@ -1,17 +1,19 @@
 from playwright.sync_api import sync_playwright, expect
+import re
 def test_ok_disabled_when_name_empty():
     with sync_playwright() as p:
-        page = p.chromium.launch(headless=False).new_page()
+        browser = p.chromium.launch(headless=True)
+        page = browser.new_page()
         page.goto("http://localhost:8080/login")
-        page.fill("#j_username", "DariaIa")
-        page.fill("input[name='j_password']", "Solutions89!")
-        page.click("button[name='Submit']")
+        page.locator("#j_username").fill("DariaIa")
+        page.locator("input[name='j_password']").fill("Solutions89!")
+        page.locator("button[name='Submit']").click()
         page.wait_for_url("http://localhost:8080/")
-        page.click("text=New Item")
-        page.wait_for_url("**/view/all/newJob")
-        page.fill("#name", "")
-        page.click("text=Pipeline")
-        expect(page.locator("#ok-button")).to_be_disabled()
+        page.locator("span.task-link-text:has-text('New Item')").click()
+        page.wait_for_url(re.compile(r".*/view/all/newJob"))
+        page.locator("#name").fill("")
+        page.get_by_text("Pipeline", exact=True).first.click()
+        expect(page.locator("#ok-button")).to_be_disabled(timeout=10000)
         page.close()
-
+        browser.close()
 
