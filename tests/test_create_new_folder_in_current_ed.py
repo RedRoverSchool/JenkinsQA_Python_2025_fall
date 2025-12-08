@@ -1,4 +1,4 @@
-
+from playwright.sync_api import expect
 def test_tc_01_002_08_create_new_folder_in_current_folder(page):
     page.goto("/")
 
@@ -13,6 +13,7 @@ def test_tc_01_002_08_create_new_folder_in_current_folder(page):
     logo_loc = 'img[id="jenkins-head-icon"]'
     parent_folder_row_loc = f"#job_{parent_folder_name}"
     child_folder_row_loc = f"#job_{child_folder_name}"
+    projectstatus_row_loc = "#projectstatus tbody tr"
 
     page.locator(new_item_link_loc).click()
     page.locator(item_name_field_loc).fill(parent_folder_name)
@@ -27,9 +28,11 @@ def test_tc_01_002_08_create_new_folder_in_current_folder(page):
     page.locator(logo_loc).click()
 
     parent_folder_row = page.locator(parent_folder_row_loc)
-    assert  parent_folder_row.is_visible()
+
+    expect(parent_folder_row).to_be_visible()
+    expect(page.locator(projectstatus_row_loc)).to_have_count(1)
 
     page.get_by_role("link", name = parent_folder_name).click()
-
     child_folder_row = page.locator(child_folder_row_loc)
-    assert child_folder_row.is_visible()
+
+    expect(child_folder_row).to_be_visible()
