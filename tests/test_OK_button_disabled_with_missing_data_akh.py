@@ -13,7 +13,7 @@ def test_tc_01_003_08(page):
     new_item_field_loc = 'input[id="name"]'
     ok_button_loc = 'button[id="ok-button"]'
     item_type_text = 'Pipeline'
-    logo_loc = 'img[src="/static/c4905107/images/svgs/logo.svg"]'
+    logo_loc = 'img[id="jenkins-head-icon"]'
     copy_from_another_item_name_loc = 'input[id="from"]'
     dropdown_loc = 'div.jenkins-dropdown.jenkins-dropdown--compact'
 
