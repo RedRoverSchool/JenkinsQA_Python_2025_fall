@@ -41,7 +41,9 @@ def page(playwright: Playwright, get_cookie):
     browser = playwright.chromium.launch(headless=HEADLESS_MODE)
     context = browser.new_context(
         viewport=ViewportSize(width=1920, height=1200),
-        base_url=BASE_URL
+        base_url=BASE_URL,
+        locale="en-US",
+        timezone_id="UTC"
     )
     context.add_cookies(get_cookie)
     page = context.new_page()
