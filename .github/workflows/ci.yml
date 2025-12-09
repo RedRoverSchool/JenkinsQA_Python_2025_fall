@@ -20,13 +20,27 @@ jobs:
       HEADLESS_MODE: ${{ secrets.HEADLESS_MODE }}
 
     steps:
+      # -------------------
+      # Опционально: очистка кеша git, если он мешает
+      - name: Clear GitHub Actions cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.git
+          key: clean-git-cache-${{ github.run_id }}
+
+      # -------------------
+      # Checkout репозитория без подмодулей
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
           submodules: false
           recursive: false
+          clean: true
 
+      # -------------------
+      # Определяем изменённые тесты
       - name: Detect changed test files
         id: changed-tests
         uses: step-security/changed-files@v45
@@ -34,6 +48,8 @@ jobs:
           files: |
             tests/**/*.py
 
+      # -------------------
+      # Сохраняем список тестов в переменную CHANGED_TESTS
       - name: Save changed tests list (fix folder name)
         run: |
           if [ "${{ steps.changed-tests.outputs.any_changed }}" = "true" ]; then
@@ -44,6 +60,8 @@ jobs:
             echo "CHANGED_TESTS=tests" >> $GITHUB_ENV
           fi
 
+      # -------------------
+      # Создаём .env файл для docker-compose
       - name: Create .env file for docker-compose
         run: |
           echo "JENKINS_USERNAME=${JENKINS_USERNAME}" >> .env
@@ -52,14 +70,10 @@ jobs:
           echo "PORT=${PORT}" >> .env
           echo "HEADLESS_MODE=${HEADLESS_MODE}" >> .env
 
+      # -------------------
+      # Запуск Docker Compose с тестами
       - name: Run Docker Compose
         env:
           TESTS: ${{ env.CHANGED_TESTS }}
         run: |
           docker compose up --build --abort-on-container-exit --exit-code-from tests
-🔹 После этого
-GitHub Actions не будет пытаться подгружать подмодули.
-
-Ошибка fatal: no submodule mapping found исчезнет.
-
-Контейнер test_playwright больше не будет ав
