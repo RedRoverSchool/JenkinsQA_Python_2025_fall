@@ -1,3 +1,4 @@
+import re
 from playwright.sync_api import expect
 
 def test_tc_11_001_02(page):
@@ -7,7 +8,7 @@ def test_tc_11_001_02(page):
     create_job_btn.click()
 
     new_page = page.locator("#add-item-panel").get_by_text('New Item')
-    expected_url = "http://localhost:8080/newJob"
+    expected_url = re.compile(r".*/newJob")
 
     expect(page).to_have_url(expected_url)
     expect(new_page).to_be_visible()
