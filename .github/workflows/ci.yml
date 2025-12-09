@@ -7,10 +7,10 @@ on:
 
 jobs:
   run-pytest:
-    name: 'run pytest tests'
+    name: Run pytest tests
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: read  # достаточно, если нет push
 
     env:
       JENKINS_USERNAME: ${{ secrets.ADMIN_USERNAME }}
@@ -21,26 +21,14 @@ jobs:
 
     steps:
       # -------------------
-      # Опционально: очистка кеша git, если он мешает
-      - name: Clear GitHub Actions cache
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.git
-          key: clean-git-cache-${{ github.run_id }}
-
-      # -------------------
-      # Checkout репозитория без подмодулей
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
           submodules: false
-          recursive: false
           clean: true
 
       # -------------------
-      # Определяем изменённые тесты
       - name: Detect changed test files
         id: changed-tests
         uses: step-security/changed-files@v45
@@ -49,8 +37,7 @@ jobs:
             tests/**/*.py
 
       # -------------------
-      # Сохраняем список тестов в переменную CHANGED_TESTS
-      - name: Save changed tests list (fix folder name)
+      - name: Set CHANGED_TESTS variable
         run: |
           if [ "${{ steps.changed-tests.outputs.any_changed }}" = "true" ]; then
             FIXED_TESTS=$(echo "${{ steps.changed-tests.outputs.all_changed_files }}" | sed 's/pipeline_project/pipeline_projects/g')
@@ -61,17 +48,17 @@ jobs:
           fi
 
       # -------------------
-      # Создаём .env файл для docker-compose
-      - name: Create .env file for docker-compose
+      - name: Create .env file for Docker Compose
         run: |
-          echo "JENKINS_USERNAME=${JENKINS_USERNAME}" >> .env
-          echo "JENKINS_PASSWORD=${JENKINS_PASSWORD}" >> .env
-          echo "HOST=${HOST}" >> .env
-          echo "PORT=${PORT}" >> .env
-          echo "HEADLESS_MODE=${HEADLESS_MODE}" >> .env
+          cat > .env <<EOF
+          JENKINS_USERNAME=${JENKINS_USERNAME}
+          JENKINS_PASSWORD=${JENKINS_PASSWORD}
+          HOST=${HOST}
+          PORT=${PORT}
+          HEADLESS_MODE=${HEADLESS_MODE}
+          EOF
 
       # -------------------
-      # Запуск Docker Compose с тестами
       - name: Run Docker Compose
         env:
           TESTS: ${{ env.CHANGED_TESTS }}
