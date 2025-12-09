@@ -23,7 +23,9 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
-          submodules: false   # ❌ отключаем попытку загрузки подмодулей
+          fetch-depth: 0
+          submodules: false
+          recursive: false
 
       - name: Detect changed test files
         id: changed-tests
@@ -55,3 +57,9 @@ jobs:
           TESTS: ${{ env.CHANGED_TESTS }}
         run: |
           docker compose up --build --abort-on-container-exit --exit-code-from tests
+🔹 После этого
+GitHub Actions не будет пытаться подгружать подмодули.
+
+Ошибка fatal: no submodule mapping found исчезнет.
+
+Контейнер test_playwright больше не будет ав
