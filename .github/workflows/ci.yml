@@ -22,6 +22,8 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
+        with:
+          submodules: false   # ❌ отключаем попытку загрузки подмодулей
 
       - name: Detect changed test files
         id: changed-tests
