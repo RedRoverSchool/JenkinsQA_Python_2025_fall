@@ -2,7 +2,7 @@ from playwright.sync_api import expect
 
 
 def test_user_gets_access(page):
-    page.goto("/manage/securityRealm/")
+    page.goto("/")
 
     user_dropdown = page.locator("a[data-dropdown='true'][href='/user/tim']")
     user_dropdown.hover()
