@@ -1,14 +1,8 @@
-import random
+	import random
 
 from dotenv import load_dotenv
 from playwright.sync_api import expect
 
-import dotenv
-import os
-
-load_dotenv()
-HOST = os.getenv("HOST")
-PORT = os.getenv("PORT")
 
 def test_delete_folder(page):
     page.goto("/")
@@ -21,7 +15,7 @@ def test_delete_folder(page):
     dashboard_page_loc = "span[class='jenkins-mobile-hide']"
     delete_folder_btn_loc = "button[href='/job/{created_folder_name}/doDelete']"
     confirm_deletion_btn_loc = "button[data-id='ok']"
-    drop_down_btn_loc = f"button[data-href='http://{HOST}:{PORT}/job/{created_folder_name}/']"
+    drop_down_btn_loc = f"button[data-href*='job/{created_folder_name}/']"
     page.locator(new_item_btn_loc).click()
     page.locator(item_name_field_loc).fill(created_folder_name)
     page.get_by_text(folder_item_type_text, exact=True).click()
@@ -30,12 +24,5 @@ def test_delete_folder(page):
     page.locator(drop_down_btn_loc).click()
     page.get_by_text("Delete Folder", exact=True).click()
     page.locator(confirm_deletion_btn_loc).click()
-
-    cell_with_job_name_loc = page.locator("//table[@id='projectstatus']//tr//td/a[@href]")
-    job_name_list = []
-    for i in range(cell_with_job_name_loc.count()):
-        cell = cell_with_job_name_loc.nth(i)
-        job_name_list.append(cell.text_content())
-    print(job_name_list)
-
-    assert created_folder_name not in job_name_list, "Ошибка, указанное значение содержится в списке"
+    locator = page.locator(created_folder_name)
+    assert locator.count() == 0
