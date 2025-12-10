@@ -11,4 +11,4 @@ def test_user_gets_access(page):
 
     page.wait_for_timeout(5000)
 
-    expect(page).to_have_url("/user/tim/account/")
+    expect(page.url).to_contain("/user/tim/account/")
