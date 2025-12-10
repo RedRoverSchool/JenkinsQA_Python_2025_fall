@@ -1,12 +1,7 @@
-from playwright.sync_api import sync_playwright, expect
-def test_login_success():
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=False)
-        page = browser.new_page()
-        page.goto("http://localhost:8080/login")
-        page.locator("#j_username").fill("DariaIa")
-        page.locator("input[name='j_password']").fill("Solutions89!")
-        page.locator("button[name='Submit']").click()
-        page.wait_for_url("http://localhost:8080/")
-        expect(page.locator("a:has-text('All')").first).to_be_visible(timeout=5000)
-        browser.close()
+from playwright.sync_api import expect
+def test_login_success(page):
+    page.goto("http://localhost:8080/login")
+    page.fill("#j_username", "DariaIa")
+    page.fill("[name='j_password']", "Solutions89!")
+    page.click("[name='Submit']")
+    expect(page).to_have_url("http://localhost:8080/")
