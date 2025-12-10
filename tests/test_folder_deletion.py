@@ -1,4 +1,4 @@
-	import random
+import random
 
 from dotenv import load_dotenv
 from playwright.sync_api import expect
