@@ -19,3 +19,15 @@ def test_create_multi_configuration_project_visible_on_dashboard(page):
     expect(page.locator(projects_names_loc).filter(has_text=project_name)).to_be_visible()
 
 
+def test_delete_multi_configuration_project_side_menu(page, create_multi_conf_project):
+    project_name = create_multi_conf_project
+
+    page.get_by_role("link", name=f"{project_name}", exact=True).click()
+
+    page.get_by_role("link", name="Delete Multi-configuration project", exact=True).click()
+    page.get_by_role("button", name="Yes", exact=True).click()
+
+    expect(page).to_have_url("/")
+    expect(page.get_by_text(project_name, exact=True)).not_to_be_visible()
+
+
