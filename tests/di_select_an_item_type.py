@@ -1,4 +1,5 @@
 from playwright.sync_api import expect
+
 def test_new_item_section_visible(page):
     page.goto("http://localhost:8080/login")
     page.fill("#j_username", "DariaIa")
