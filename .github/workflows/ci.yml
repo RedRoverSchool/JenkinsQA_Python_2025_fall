@@ -7,10 +7,10 @@ on:
 
 jobs:
   run-pytest:
-    name: Run pytest tests
+    name: 'run pytest tests'
     runs-on: ubuntu-latest
     permissions:
-      contents: read  # достаточно, если нет push
+      contents: write
 
     env:
       JENKINS_USERNAME: ${{ secrets.ADMIN_USERNAME }}
@@ -20,15 +20,9 @@ jobs:
       HEADLESS_MODE: ${{ secrets.HEADLESS_MODE }}
 
     steps:
-      # -------------------
-      - name: Checkout repository
+      - name: Checkout repo
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          submodules: false
-          clean: true
 
-      # -------------------
       - name: Detect changed test files
         id: changed-tests
         uses: step-security/changed-files@v45
@@ -36,31 +30,25 @@ jobs:
           files: |
             tests/**/*.py
 
-      # -------------------
-      - name: Set CHANGED_TESTS variable
+      - name: Save changed tests list
         run: |
           if [ "${{ steps.changed-tests.outputs.any_changed }}" = "true" ]; then
-            FIXED_TESTS=$(echo "${{ steps.changed-tests.outputs.all_changed_files }}" | sed 's/pipeline_project/pipeline_projects/g')
-            echo "CHANGED_TESTS=$FIXED_TESTS" >> $GITHUB_ENV
+            echo "CHANGED_TESTS=${{ steps.changed-tests.outputs.all_changed_files }}" >> $GITHUB_ENV
           else
             echo "No test changes — running ALL tests"
-            echo "CHANGED_TESTS=tests" >> $GITHUB_ENV
+            echo "CHANGED_TESTS=\"tests\"" >> $GITHUB_ENV
           fi
 
-      # -------------------
-      - name: Create .env file for Docker Compose
+      - name: Create .env file for docker-compose
         run: |
-          cat > .env <<EOF
-          JENKINS_USERNAME=${JENKINS_USERNAME}
-          JENKINS_PASSWORD=${JENKINS_PASSWORD}
-          HOST=${HOST}
-          PORT=${PORT}
-          HEADLESS_MODE=${HEADLESS_MODE}
-          EOF
+          echo "JENKINS_USERNAME=${JENKINS_USERNAME}" >> .env
+          echo "JENKINS_PASSWORD=${JENKINS_PASSWORD}" >> .env
+          echo "HOST=${HOST}" >> .env
+          echo "PORT=${PORT}" >> .env
+          echo "HEADLESS_MODE=${HEADLESS_MODE}" >> .env
 
-      # -------------------
-      - name: Run Docker Compose
+      - name: Run Docker Compose (only changed tests)
         env:
           TESTS: ${{ env.CHANGED_TESTS }}
         run: |
-          docker compose up --build --abort-on-container-exit --exit-code-from tests
+            docker compose up --build --abort-on-container-exit --exit-code-from tests
