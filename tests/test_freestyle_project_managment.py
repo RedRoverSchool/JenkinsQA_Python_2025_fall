@@ -30,5 +30,3 @@ def test_cancel_delete_from_page_project(page):
 
     assert page.locator(freestyle_btn_loc).is_visible()
 
-
-
