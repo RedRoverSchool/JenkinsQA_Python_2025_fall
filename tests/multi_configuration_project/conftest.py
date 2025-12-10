@@ -1,7 +1,6 @@
 import random
 
 import pytest
-from playwright.sync_api import expect
 
 @pytest.fixture
 def create_multi_conf_project(page):
