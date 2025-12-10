@@ -6,7 +6,7 @@ from playwright.sync_api import Playwright, sync_playwright, expect
 def test_cancel_delete_from_page_project(page):
     page.goto("/")
     new_freestyle_project_name = f"freestyle-{random.randint(1, 9999)}"
-    freestyle_btn_loc = '#job_freestyle-6115 > td:nth-child(3) > a'
+    freestyle_btn_loc = f'#job_{new_freestyle_project_name} > td:nth-child(3) > a'
 
     new_item_btn_loc = 'a[href="/view/all/newJob"]'
     item_name_field_loc = 'input[class="jenkins-input"]'
