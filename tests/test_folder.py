@@ -31,3 +31,4 @@ def test_delete_folder(page):
     print(job_name_list)
 
     assert created_folder_name not in job_name_list, "Ошибка, указанное значение содержится в списке"
+
