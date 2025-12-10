@@ -2,7 +2,7 @@ from playwright.sync_api import expect
 
 
 def test_user_gets_access(page):
-    page.goto("http://localhost:8080/manage/securityRealm/")
+    page.goto("/manage/securityRealm/")
 
     user_dropdown = page.locator("a[data-dropdown='true'][href='/user/tim']")
     user_dropdown.hover()
@@ -11,4 +11,4 @@ def test_user_gets_access(page):
 
     page.wait_for_timeout(5000)
 
-    expect(page.url).to_contain("/user/tim/account/")
+    expect(page).to_have_url("/user/tim/account/")
