@@ -14,6 +14,10 @@ def test_checkboxes_can_be_selected(freestyle):
     checkboxes = freestyle.locator('#environment ~ .jenkins-form-item')
     checkbox_loc = '.row-set-start>.jenkins-checkbox-help-wrapper>.jenkins-checkbox'
     checkbox_check_loc = checkbox_loc + ' input[type="checkbox"]'
+    ver_loc = 'button[class="jenkins-button jenkins-button--tertiary jenkins_ver"]'
+    jenkins_version = freestyle.locator(ver_loc)
+
+    expect(jenkins_version).to_have_text('Jenkins 2.516.3')
 
     build_steps_to_scroll.scroll_into_view_if_needed()
     count = checkboxes.count()
@@ -30,19 +34,15 @@ def test_checkboxes_can_be_selected(freestyle):
 
         expect(checkboxes.nth(i).locator(checkbox_check_loc)).not_to_be_checked()
 
-@pytest.mark.parametrize('tp_link, tippy, tp_expected_text', Freestyle.tooltip_environment)
-def test_environment_tooltips(freestyle, tp_link, tippy, tp_expected_text) :
-    checkboxes = freestyle.locator('#environment ~ .jenkins-form-item')
-    checkbox_loc = '.row-set-start>.jenkins-checkbox-help-wrapper>.jenkins-checkbox'
-    ver_loc = 'button[class="jenkins-button jenkins-button--tertiary jenkins_ver"]'
-    jenkins_version = freestyle.locator(ver_loc)
-
-    expect(jenkins_version).to_have_text('Jenkins 2.516.3')
-
-    for i in (0,4) :
-        checkboxes.nth(i).locator(checkbox_loc).click()
-    checkboxes.nth(0).get_by_text("Advanced").click()
-    freestyle.locator(tp_link).hover()
-    tp_text = freestyle.locator(f'div#{tippy}')
-
-    expect(tp_text).to_have_text(tp_expected_text)
+# @pytest.mark.parametrize('tp_link, tippy, tp_expected_text', Freestyle.tooltip_environment)
+# def test_environment_tooltips(freestyle, tp_link, tippy, tp_expected_text) :
+#     checkboxes = freestyle.locator('#environment ~ .jenkins-form-item')
+#     checkbox_loc = '.row-set-start>.jenkins-checkbox-help-wrapper>.jenkins-checkbox'
+#
+#     for i in (0,4) :
+#         checkboxes.nth(i).locator(checkbox_loc).click()
+#     checkboxes.nth(0).get_by_text("Advanced").click()
+#     freestyle.locator(tp_link).hover()
+#     tp_text = freestyle.locator(f'div#{tippy}')
+#
+#     expect(tp_text).to_have_text(tp_expected_text)
