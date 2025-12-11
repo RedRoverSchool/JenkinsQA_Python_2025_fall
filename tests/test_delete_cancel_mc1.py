@@ -3,8 +3,7 @@ from playwright.sync_api import expect
 def test_delete_cancel_mc1(page):
     page.goto("/")
 
-    dropdown = page.get_by_role("row", name="MC1").locator(".jenkins-menu-dropdown-chevron")
-    dropdown.click(force=True)
+    page.locator("button[aria-expanded='false']").first.click(force=True)
 
     delete_btn = page.locator(
         "button.jenkins-dropdown__item[href='/job/MC1/doDelete']"
