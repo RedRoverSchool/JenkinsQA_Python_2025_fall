@@ -3,9 +3,12 @@ from playwright.sync_api import expect
 def test_delete_cancel_mc1(page):
     page.goto("/")
 
-    job_row = page.locator("tr:has-text('MC1')")
+    row = page.locator("tr:has-text('MC1')")
+    expect(row).to_be_visible()
 
-    job_row.locator(".jenkins-menu-dropdown-chevron").click(force=True)
+    row.hover()
+
+    row.locator(".jenkins-menu-dropdown-chevron").click(force=True)
 
     page.locator("button[href='/job/MC1/doDelete']").click()
 
