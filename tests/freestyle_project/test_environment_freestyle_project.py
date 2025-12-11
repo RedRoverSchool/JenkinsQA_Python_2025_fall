@@ -34,6 +34,10 @@ def test_checkboxes_can_be_selected(freestyle):
 def test_environment_tooltips(freestyle, tp_link, tippy, tp_expected_text) :
     checkboxes = freestyle.locator('#environment ~ .jenkins-form-item')
     checkbox_loc = '.row-set-start>.jenkins-checkbox-help-wrapper>.jenkins-checkbox'
+    ver_loc = 'button[class="jenkins-button jenkins-button--tertiary jenkins_ver"]'
+    jenkins_version = freestyle.locator(ver_loc)
+
+    expect(jenkins_version).to_have_text('Jenkins 2.516.3')
 
     for i in (0,4) :
         checkboxes.nth(i).locator(checkbox_loc).click()
