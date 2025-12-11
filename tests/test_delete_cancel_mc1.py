@@ -1,17 +1,24 @@
 from playwright.sync_api import expect
 
+
 def test_delete_cancel_mc1(page):
     page.goto("/")
 
-    row = page.locator("tr:has-text('MC1')")
-    expect(row).to_be_visible()
+    dropdown = page.locator(
+        "button.jenkins-menu-dropdown-chevron[data-href*='/job/MC1/']"
+    )
 
-    row.hover()
+    expect(dropdown).to_be_visible()
+    dropdown.click(force=True)
 
-    row.locator(".jenkins-menu-dropdown-chevron").click(force=True)
+    delete_btn = page.locator(
+        "button.jenkins-dropdown__item[href='/job/MC1/doDelete']"
+    )
+    expect(delete_btn).to_be_visible()
+    delete_btn.click()
 
-    page.locator("button[href='/job/MC1/doDelete']").click()
-
-    page.locator("button[data-id='cancel']").click()
+    cancel_btn = page.locator("button[data-id='cancel']")
+    expect(cancel_btn).to_be_visible()
+    cancel_btn.click()
 
     expect(page).to_have_url("/")
