@@ -6,6 +6,7 @@ def test_unique_item_name_constraint(page):
     existing_project = "Test_Project"
 
     page.goto(f"/job/{folder_name}")
+    page.wait_for_selector("a[href='/job/Autotests/newJob']", timeout=60000)
     page.click("a[href='/job/Autotests/newJob']")
 
     page.fill("#name", existing_project)
