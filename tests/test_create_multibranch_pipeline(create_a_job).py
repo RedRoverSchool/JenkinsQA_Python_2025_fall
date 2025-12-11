@@ -2,9 +2,9 @@ import random
 import string
 
 
-def test_tc_01_005_01(page):
+def test_tc_01_005_03(page):
     """локатор кнопки new item"""
-    new_item_loc = "a[href='/view/all/newJob']"
+    new_job_loc = "a[href='newJob']"
     """Локатор кнопки Multibranch pipeline"""
     pipeline_multi_loc = "Freestyle project"
     field_name_loc = "input[name='name']"
@@ -15,7 +15,7 @@ def test_tc_01_005_01(page):
     name_item = ''.join(random.choices(string.ascii_lowercase, k=5))
 
     page.goto("/")
-    page.locator(new_item_loc).click()
+    page.locator(new_job_loc).click()
     page.locator(field_name_loc).fill(name_item)
     page.get_by_text(pipeline_multi_loc).click()
     page.locator(button_ok_loc).click()
