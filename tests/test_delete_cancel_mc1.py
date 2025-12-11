@@ -5,12 +5,8 @@ def test_delete_cancel_mc1(page):
 
     page.locator("button[aria-expanded='false']").first.click(force=True)
 
-    delete_btn = page.locator(
-        "button.jenkins-dropdown__item[href='/job/MC1/doDelete']"
-    )
-    delete_btn.click()
+    page.locator("text=Delete Multi-configuration Project").click()
 
-    cancel_btn = page.locator("button[data-id='cancel']")
-    cancel_btn.click()
+    page.locator("button[data-id='cancel']").click()
 
     expect(page).to_have_url("/")
