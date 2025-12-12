@@ -28,3 +28,7 @@ def test_unique_item_name_constraint(page):
     assert error_locator.is_visible()
     actual_error_text = error_locator.inner_text()
     print(f"Текст ошибки: '{actual_error_text}'")
+
+    page.goto("/job/Autotest/delete")
+    page.locator("button[name='Submit']").click()
+    page.wait_for_timeout(1000)
