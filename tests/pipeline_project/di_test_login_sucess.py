@@ -8,6 +8,5 @@ def test_login_success():
         page.locator("#j_username").fill("DariaIa")
         page.locator("input[name='j_password']").fill("Solutions89!")
         page.locator("button[name='Submit']").click()
-        # Добавьте проверки, если нужно
         page.close()
         browser.close()
