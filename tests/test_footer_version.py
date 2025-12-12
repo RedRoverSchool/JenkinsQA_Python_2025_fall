@@ -5,7 +5,7 @@ def test_verify_footer_version(page):
 
     page.goto("/")
 
-    footer_version_btn = page.locator("button.jenkins-button--tertiary")
+    footer_version_btn = page.locator("footer button.jenkins-button--tertiary")
 
     expect(footer_version_btn).to_be_visible()
 
