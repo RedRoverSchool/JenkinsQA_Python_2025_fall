@@ -1,7 +1,7 @@
 from playwright.sync_api import expect
 
 
-def test_delete_multi_configuration_project_dropdown_side_menu(page, create_multi_conf_project):
+def test_rename_multi_configuration_project_side_menu(page, create_multi_conf_project):
     project_name = create_multi_conf_project
     new_project_name = f"New_{project_name}"
     projects_names_loc = "//tr[@id]//a//span"
