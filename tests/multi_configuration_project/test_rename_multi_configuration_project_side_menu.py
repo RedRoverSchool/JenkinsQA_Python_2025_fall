@@ -16,7 +16,3 @@ def test_rename_multi_configuration_project_side_menu(page, create_multi_conf_pr
     expect(page.get_by_text(project_name, exact=True)).not_to_be_visible()
     expect(page.locator(projects_names_loc).filter(has_text=new_project_name)).to_be_visible()
 
-
-
-
-
