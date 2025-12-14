@@ -2,9 +2,7 @@ import os
 import pytest
 from playwright.sync_api import Playwright, ViewportSize
 from dotenv import load_dotenv
-from pages.freestyle_project_configuration_page import (
-    FreestyleProjectConfigurationPage
-)
+
 
 load_dotenv()
 
@@ -55,8 +53,3 @@ def page(playwright: Playwright, get_cookie):
     page.close()
     context.close()
     browser.close()
-
-
-@pytest.fixture
-def freestyle_project_configuration_page(page):
-    return FreestyleProjectConfigurationPage(page)
