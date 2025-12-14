@@ -2,6 +2,9 @@ import os
 import pytest
 from playwright.sync_api import Playwright, ViewportSize
 from dotenv import load_dotenv
+from pages.freestyle_project_configuration_page import (
+    FreestyleProjectConfigurationPage
+)
 
 load_dotenv()
 
@@ -11,8 +14,8 @@ HOST = os.getenv("HOST")
 PORT = os.getenv("PORT")
 HEADLESS_MODE = os.getenv("HEADLESS_MODE", "false").lower() == "true"
 
-
 BASE_URL = f"http://{HOST}:{PORT}"
+
 
 @pytest.fixture(scope="session")
 def get_cookie(playwright: Playwright):
@@ -36,6 +39,7 @@ def get_cookie(playwright: Playwright):
 
     return cookies
 
+
 @pytest.fixture()
 def page(playwright: Playwright, get_cookie):
     browser = playwright.chromium.launch(headless=HEADLESS_MODE)
@@ -51,3 +55,8 @@ def page(playwright: Playwright, get_cookie):
     page.close()
     context.close()
     browser.close()
+
+
+@pytest.fixture
+def freestyle_project_configuration_page(page):
+    return FreestyleProjectConfigurationPage(page)
