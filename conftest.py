@@ -1,7 +1,9 @@
 import os
 import pytest
+import requests
 from playwright.sync_api import Playwright, ViewportSize
 from dotenv import load_dotenv
+
 
 load_dotenv()
 
@@ -10,9 +12,10 @@ USER_PASSWORD = os.getenv("JENKINS_PASSWORD")
 HOST = os.getenv("HOST")
 PORT = os.getenv("PORT")
 HEADLESS_MODE = os.getenv("HEADLESS_MODE", "false").lower() == "true"
-
+JENKINS_TOKEN = os.getenv("JENKINS_TOKEN")
 
 BASE_URL = f"http://{HOST}:{PORT}"
+
 
 @pytest.fixture(scope="session")
 def get_cookie(playwright: Playwright):
@@ -35,6 +38,7 @@ def get_cookie(playwright: Playwright):
     browser.close()
 
     return cookies
+
 
 @pytest.fixture()
 def page(playwright: Playwright, get_cookie):
