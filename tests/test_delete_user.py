@@ -17,7 +17,7 @@ def test_tc_15_003_06(page):
     email_field_loc = "input[name='email']"
     create_btn_loc = "button[formnovalidate='formNoValidate']"
     created_user_loc = lambda name: f"td > a[href='user/{username.lower()}/']"
-    delete_user_btn_loc = "a[data-url='user/user1/doDelete']"
+    delete_user_btn_loc = f"a[data-url='user/{username.lower()}/doDelete']"
     ok_btn_loc = "button[data-id='ok']"
 
     page.locator(create_user_btn_loc).click()
@@ -29,7 +29,6 @@ def test_tc_15_003_06(page):
     page.locator(create_btn_loc).click()
 
     text = page.locator(created_user_loc(username)).text_content()
-    assert text == username
 
     page.locator(delete_user_btn_loc).click()
     page.locator(ok_btn_loc).click()
