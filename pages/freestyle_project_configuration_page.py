@@ -6,6 +6,7 @@ from utils.generators.project_generator import ProjectGenerator
 
 
 class FreestyleProjectConfigurationPage(BasePage):
+    pass
 
     def create_freestyle_project_precondition(self) -> str:
         """
@@ -13,7 +14,7 @@ class FreestyleProjectConfigurationPage(BasePage):
         """
 
         project_name = ProjectGenerator.generate_freestyle_name()
-
+        self.open("/")
         self.click(FreestyleProjectConfigurationLocators.NEW_ITEM_BUTTON)
         self.fill(FreestyleProjectConfigurationLocators.ITEM_NAME_FIELD, project_name)
         self.click(FreestyleProjectConfigurationLocators.FREESTYLE_PROJECT_TYPE)

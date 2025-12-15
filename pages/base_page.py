@@ -1,10 +1,9 @@
 class BasePage:
-    def __init__(self, page, url):
+    def __init__(self, page):
         self.page = page
-        self.url = url
 
-    def open(self):
-        self.page.goto(self.url)
+    def open(self, url: str):
+        self.page.goto(url)
 
     def click(self, locator: str):
         self.page.locator(locator).click()
