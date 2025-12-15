@@ -14,7 +14,6 @@ def test_verify_header_search_functionality(page):
     search_box.fill(query)
     search_box.press("Enter")
 
-
     expect(page).to_have_url(re.compile("/search/"))
 
     header = page.locator("h1")
