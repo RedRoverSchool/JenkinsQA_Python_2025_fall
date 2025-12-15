@@ -16,3 +16,6 @@ class BasePage:
 
     def get_text(self, locator: str) -> str:
         return self.page.locator(locator).inner_text()
+
+    def wait_for_visible(self, locator, timeout: int = 5000):
+        self.page.locator(locator).wait_for(state="visible", timeout=timeout)
