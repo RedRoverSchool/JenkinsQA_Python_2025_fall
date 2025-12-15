@@ -1,8 +1,7 @@
-"""
-Сюда пишем все лкоаторы, которые используются во многих разделах, чтобы не дублировать код
-После того как записали сюда локатор, удалите строку "pass"
-Чтобы применились эти локаторы, наследуйтесь от BaseLocators в своих локаторах, для отдельных страниц
-"""
 
 class BaseLocators:
-    pass
+
+    NEW_ITEM_BUTTON = "a[href='/view/all/newJob']"
+    OK_BUTTON = "button#ok-button"
+    SAVE_BUTTON = "button[name='Submit']"
+
