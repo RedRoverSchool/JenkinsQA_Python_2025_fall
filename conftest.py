@@ -1,5 +1,6 @@
 import os
 import pytest
+import requests
 from playwright.sync_api import Playwright, ViewportSize
 from dotenv import load_dotenv
 from pages.freestyle_project_configuration_page import (
@@ -13,6 +14,7 @@ USER_PASSWORD = os.getenv("JENKINS_PASSWORD")
 HOST = os.getenv("HOST")
 PORT = os.getenv("PORT")
 HEADLESS_MODE = os.getenv("HEADLESS_MODE", "false").lower() == "true"
+JENKINS_TOKEN = os.getenv("JENKINS_TOKEN")
 
 BASE_URL = f"http://{HOST}:{PORT}"
 
@@ -60,3 +62,25 @@ def page(playwright: Playwright, get_cookie):
 @pytest.fixture
 def freestyle_project_configuration_page(page):
     return FreestyleProjectConfigurationPage(page)
+
+def get_all_jobs():
+    response = requests.get(
+        url=f"{BASE_URL}/api/json",
+        auth=(USER_NAME, JENKINS_TOKEN)
+    )
+    return response.json()['jobs']
+
+def delete_jobs():
+    jobs_list = get_all_jobs()
+
+    for job in jobs_list:
+        name = job["name"]
+        requests.post(
+            url=f"{BASE_URL}/job/{name}/doDelete",
+            auth=(USER_NAME, JENKINS_TOKEN)
+        )
+
+@pytest.fixture(scope="function", autouse=True)
+def delete_jobs_after_all_tests():
+    yield
+    delete_jobs()
