@@ -1,6 +1,5 @@
 import random
 
-
 def test_tc_15_003_06(page):
 
     username = "User1"
