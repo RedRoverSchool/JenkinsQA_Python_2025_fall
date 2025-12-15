@@ -5,13 +5,15 @@ from playwright.sync_api import expect
 def test_verify_header_search_functionality(page):
 
     page.goto("/")
+    expect(page.locator("a[href='/logout']")).to_be_visible()
 
-    search_box = page.locator("#search-box")
+    search_box = page.locator("input[name='q']")
 
     query = "test_query"
 
     search_box.fill(query)
     search_box.press("Enter")
+
 
     expect(page).to_have_url(re.compile("/search/"))
 
