@@ -8,3 +8,5 @@ class FreestyleProjectConfigurationLocators(BaseLocators):
     HOME_ICON = "#jenkins-head-icon"
     CONFIGURE_BUTTON = "a[href$='configure']"
     TOGGLE_INPUT = "input#enable-disable-project"
+    TOGGLE_LABEL = "label[for='enable-disable-project']"
+    DISABLED_MESSAGE_TEXT = "This project is currently disabled"
