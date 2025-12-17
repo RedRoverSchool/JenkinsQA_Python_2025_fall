@@ -14,4 +14,4 @@ class TestConfiguration:
         base_configuration_page.apply_changes()
         base_configuration_page.go_to_project_page(self.FOLDER_NAME)
 
-        assert base_project_page.description_text() == self.DESCRIPTION
+        assert base_project_page.description_text(self.DESCRIPTION) == self.DESCRIPTION

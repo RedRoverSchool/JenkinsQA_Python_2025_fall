@@ -1,6 +1,7 @@
 from pages.base_page import BasePage
 from locators.base_locators import BaseLocators
 
+
 class BaseConfigurationPage(BasePage):
 
     def go_to_configuration_page(self, name):
