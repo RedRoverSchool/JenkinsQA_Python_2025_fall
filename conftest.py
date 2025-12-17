@@ -4,6 +4,8 @@ import requests
 from playwright.sync_api import Playwright, ViewportSize
 from dotenv import load_dotenv
 
+from utils.functions import load_xml
+from utils.jenkins_client import JenkinsAPI
 
 load_dotenv()
 
@@ -16,6 +18,13 @@ JENKINS_TOKEN = os.getenv("JENKINS_TOKEN")
 
 BASE_URL = f"http://{HOST}:{PORT}"
 
+@pytest.fixture(scope="session")
+def jenkins():
+    return JenkinsAPI(
+        base_url=BASE_URL,
+        user=USER_NAME,
+        token=JENKINS_TOKEN
+    )
 
 @pytest.fixture(scope="session")
 def get_cookie(playwright: Playwright):
@@ -55,3 +64,37 @@ def page(playwright: Playwright, get_cookie):
     page.close()
     context.close()
     browser.close()
+
+@pytest.fixture
+def create_job(jenkins):
+    def _create(name, job_type=None, folder=None):
+        xml = load_xml(job_type)
+        jenkins.create_item_from_file(
+            name=name,
+            config_xml=xml,
+            folder=folder
+        )
+        return name
+    return _create
+
+def get_all_jobs():
+    response = requests.get(
+        url=f"{BASE_URL}/api/json",
+        auth=(USER_NAME, JENKINS_TOKEN)
+    )
+    return response.json()['jobs']
+
+def delete_jobs():
+    jobs_list = get_all_jobs()
+
+    for job in jobs_list:
+        name = job["name"]
+        requests.post(
+            url=f"{BASE_URL}/job/{name}/doDelete",
+            auth=(USER_NAME, JENKINS_TOKEN)
+        )
+
+@pytest.fixture(scope="function", autouse=True)
+def delete_jobs_after_all_tests():
+    yield
+    delete_jobs()
