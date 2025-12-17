@@ -1,9 +1,10 @@
 import os
 import pytest
 import requests
-from playwright.sync_api import Playwright, ViewportSize
+from playwright.sync_api import Playwright, ViewportSize, Page
 from dotenv import load_dotenv
-
+from pages.base_configuration_page import BaseConfigurationPage
+from pages.base_project_page import BaseProjectPage
 from utils.functions import load_xml
 from utils.jenkins_client import JenkinsAPI
 
@@ -98,3 +99,11 @@ def delete_jobs():
 def delete_jobs_after_all_tests():
     yield
     delete_jobs()
+
+@pytest.fixture()
+def base_configuration_page(page:Page):
+    return BaseConfigurationPage(page)
+
+@pytest.fixture()
+def base_project_page(page:Page):
+    return BaseProjectPage(page)
