@@ -1,4 +1,4 @@
-def test_security_block_buttons(page):
+def test_status_information_block_buttons(page):
     page.goto("/manage/")
 
     status_information_block_expected_content = [
