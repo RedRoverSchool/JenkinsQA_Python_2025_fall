@@ -21,7 +21,7 @@ class BasePage:
         self.page.locator(locator).wait_for(state="visible", timeout=timeout)
 
     def go_to_project_page(self, name):
-        self.page.goto(f"http://localhost:8080/job/{name}/")
+        self.page.goto(f"/job/{name}/")
 
     def clear(self, locator: str):
         self.page.locator(locator).clear()
