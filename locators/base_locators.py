@@ -6,3 +6,7 @@ class BaseLocators:
     class BaseConfigurationPageLocators:
         TEXTAREA_DESCRIPTION = "//div[normalize-space()='Description']/following-sibling::div[1]//textarea"
         BUTTON_APPLY = "button[name='Apply']"
+
+        TOGGLE_INPUT = "input#enable-disable-project"
+        TOGGLE_LABEL = "label[for='enable-disable-project']"
+        DISABLED_MESSAGE_TEXT = "This project is currently disabled"
