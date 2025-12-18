@@ -12,3 +12,16 @@ class BaseConfigurationPage(BasePage):
 
     def apply_changes(self):
         self.click(BaseLocators.BaseConfigurationPageLocators.BUTTON_APPLY)
+
+    def disable_project(self):
+        self.click(
+            BaseLocators.BaseConfigurationPageLocators.TOGGLE_LABEL
+        )
+
+    def save_configuration(self):
+        self.click(BaseLocators.SAVE_BUTTON)
+
+    def assert_project_disabled_message_is_displayed(self):
+        assert self.is_visible(
+            f"text={BaseLocators.BaseConfigurationPageLocators.DISABLED_MESSAGE_TEXT}"
+        )

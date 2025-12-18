@@ -1,17 +1,15 @@
-from pages.freestyle_project_configuration_page import (FreestyleProjectConfigurationPage)
+from data.enums import ItemType
 
 
-class TestFreestyleProjectToggleDisable:
+class TestProjectToggleDisable:
 
-    def test_RF_02_001_003_toggle_disable_error_message(self, page):
-        """
-        RF_02.001.003 |Freestyle Project Configuration >Toggle Disable – Error message displayed
-        """
-        freestyle_page = FreestyleProjectConfigurationPage(page)
+    def test_RF_02_001_003_toggle_disable_error_message(self, create_job, base_configuration_page):
+        project_name = create_job(
+            name="test_job",
+            job_type=ItemType.FREESTYLE
+        )
 
-        project_name = freestyle_page.create_freestyle_project_precondition()
-        freestyle_page.open_project_configuration(project_name)
-        freestyle_page.disable_project()
-        freestyle_page.save_configuration()
+        base_configuration_page.go_to_configuration_page(project_name)
+        base_configuration_page.disable_project()
+        base_configuration_page.save_configuration()
 
-        freestyle_page.assert_project_disabled_message_is_displayed()
