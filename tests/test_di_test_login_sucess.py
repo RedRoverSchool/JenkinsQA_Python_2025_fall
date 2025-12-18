@@ -14,8 +14,6 @@ def registered_user():
 def test_login_success(page, base_url, registered_user):
 
     page.goto(f"{base_url}/login")
-
-
     page.locator("#j_username").fill(registered_user["username"])
     page.locator("input[name='j_password']").fill(registered_user["password"])
     page.locator("button[name='Submit']").click()
