@@ -1,7 +1,4 @@
-import random
-import string
-
-
+import rando
 
 def test_tc_01_005_05(page):
     """локатор кнопки new item"""

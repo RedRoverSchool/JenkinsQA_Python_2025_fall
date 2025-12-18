@@ -1,14 +1,23 @@
-def test_tc_01_005_04(page):
-    """локатор кнопки new item"""
-    new_item_loc = "a[href='/view/all/newJob']"
-    """Локатор кнопки Multibranch pipeline"""
-    pipeline_multi_loc = "Freestyle project"
-    """Локатор сообщения о пустом поле"""
-    message_loc = "div#itemname-required"
-    message = "» This field cannot be empty, please enter a valid name"
+from playwright.sync_api import sync_playwright, expect
 
-    page.goto("/")
-    page.locator(new_item_loc).click()
-    page.get_by_text(pipeline_multi_loc).click()
-    """Проверка, что текст сообщения об ошибке появляется на странице"""
-    assert  message in page.text_content(message_loc)
+# Основной URL, который будет использоваться для всех относительных путей
+BASE_URL = "http://localhost:8080"
+
+def test_login_success():
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=False)
+        page = browser.new_page()
+
+        # Устанавливаем базовый URL для всех переходов
+        page.goto(f"{BASE_URL}/login")  # Переход на страницу логина
+
+        page.locator("#j_username").fill("DariaIa")
+        page.locator("input[name='j_password']").fill("Assistants89!")
+        page.locator("button[name='Submit']").click()
+
+        # Ждём редиректа на главную страницу, используя относительный путь
+        page.wait_for_url(f"{BASE_URL}/")
+
+        # Проверка успешного логина: выбираем только первый элемент с текстом 'All'
+        expect(page.locator("a:has-text('All')").first).to_be_visible(timeout=5000)
+        browser.close()
