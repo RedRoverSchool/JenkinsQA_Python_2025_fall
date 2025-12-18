@@ -37,17 +37,3 @@ class FreestyleProjectConfigurationPage(BasePage):
                 FreestyleProjectConfigurationLocators.TOGGLE_INPUT
             )
         ).to_be_checked()
-
-    def disable_project(self):
-        self.click(FreestyleProjectConfigurationLocators.TOGGLE_LABEL)
-
-    def save_configuration(self):
-        self.click(FreestyleProjectConfigurationLocators.SAVE_BUTTON)
-
-    def assert_project_disabled_message_is_displayed(self):
-        expect(
-            self.page.get_by_text(
-                FreestyleProjectConfigurationLocators.DISABLED_MESSAGE_TEXT,
-                exact=False
-            )
-        ).to_be_visible()
