@@ -1,4 +1,4 @@
-def create_pipeline(page, name):
+ create_pipeline(page, name):
     """This function it`s not a test it`s function  just for create pipeline project without description,
     it`s necessary for next test cases"""
 

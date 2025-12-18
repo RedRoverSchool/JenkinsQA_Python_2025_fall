@@ -1,4 +1,4 @@
-from playwright.sync_api import expect
+pip freezefrom playwright.sync_api import expect
 import random
 
 

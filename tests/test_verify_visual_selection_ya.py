@@ -1,4 +1,4 @@
-
+pip install pytest
 
 def test_verify_visual_selection(page):
 
