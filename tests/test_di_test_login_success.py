@@ -2,7 +2,6 @@ import pytest
 from playwright.sync_api import expect
 @pytest.fixture
 def registered_user():
-
     user = {
         "username": "DariaIa",
         "password": "Assistants89!"
