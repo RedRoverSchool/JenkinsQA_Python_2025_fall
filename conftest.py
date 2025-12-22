@@ -1,14 +1,18 @@
 import os
 import pytest
 import requests
-from playwright.sync_api import Playwright, ViewportSize
+from playwright.sync_api import Playwright, ViewportSize, Page
 from dotenv import load_dotenv
 
-from utils.functions import load_xml
+from data.user.user import create_user_script, delete_user_script
+from pages.base_configuration_page import BaseConfigurationPage
+from pages.base_project_page import BaseProjectPage
+from utils.functions import load_xml, execute_user_groovy_script
+from utils.generators.user_generator import UserGenerator
 from utils.jenkins_client import JenkinsAPI
 
 load_dotenv()
-
+user_generator = UserGenerator()
 USER_NAME = os.getenv("JENKINS_USERNAME")
 USER_PASSWORD = os.getenv("JENKINS_PASSWORD")
 HOST = os.getenv("HOST")
@@ -53,7 +57,7 @@ def get_cookie(playwright: Playwright):
 def page(playwright: Playwright, get_cookie):
     browser = playwright.chromium.launch(headless=HEADLESS_MODE)
     context = browser.new_context(
-        viewport=ViewportSize(width=1920, height=1200),
+        viewport=ViewportSize(width=1440, height=960),
         base_url=BASE_URL,
         locale="en-US",
         timezone_id="UTC"
@@ -94,7 +98,52 @@ def delete_jobs():
             auth=(USER_NAME, JENKINS_TOKEN)
         )
 
+def delete_user(username):
+    groovy_script = delete_user_script(username)
+    execute_user_groovy_script(
+        url=BASE_URL,
+        groovy_scripts=groovy_script,
+        username=USER_NAME,
+        jenkins_token=JENKINS_TOKEN
+    )
+
+
 @pytest.fixture(scope="function", autouse=True)
 def delete_jobs_after_all_tests():
     yield
     delete_jobs()
+
+@pytest.fixture()
+def base_configuration_page(page:Page):
+    return BaseConfigurationPage(page)
+
+@pytest.fixture()
+def base_project_page(page:Page):
+    return BaseProjectPage(page)
+
+@pytest.fixture
+def create_user_fixture():
+    user_info = next(user_generator.create_user_generator())
+    groovy_script = create_user_script(
+        username=user_info.username,
+        password=user_info.password,
+        full_name=user_info.fullname,
+        email=user_info.email
+    )
+    execute_user_groovy_script(
+        url=BASE_URL,
+        groovy_scripts=groovy_script,
+        username=USER_NAME,
+        jenkins_token=JENKINS_TOKEN
+    )
+    yield user_info
+    delete_user(user_info.username)
+
+
+@pytest.fixture
+def open_page(page):
+    def _open(page_class, url):
+        class_page = page_class(page, url)
+        class_page.open()
+        return class_page
+    return _open

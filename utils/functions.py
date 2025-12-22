@@ -1,4 +1,7 @@
 from pathlib import Path
+
+import requests
+
 from data.enums import ItemType
 
 
@@ -15,5 +18,12 @@ def load_xml(item_type_data):
         ItemType.ORGANIZATION_FOLDER: XML_DIR / "organization_folder.xml"
     }
     return item_type[item_type_data].read_text(encoding="utf-8")
+
+def execute_user_groovy_script(url: str, groovy_scripts: str, username: str, jenkins_token: str):
+    requests.post(
+        url=f"{url}/scriptText",
+        auth=(username, jenkins_token),
+        data={"script": groovy_scripts}
+    )
 
 
