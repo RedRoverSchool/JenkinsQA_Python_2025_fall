@@ -7,7 +7,7 @@ from pages.base_page import BasePage
 class NewItemPage(BasePage):
 
     def open_new_item_page(self):
-        self.open("/")
+        self.open()
         self.click(NewItemLocators.NEW_ITEM_BTN)
 
 
