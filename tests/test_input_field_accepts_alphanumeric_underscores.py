@@ -2,6 +2,7 @@ import time
 
 from playwright.sync_api import expect
 def test_validation_valid_characters(page):
+    """URL"""
     page.goto("/")
 
     alphanumeric_characters_underscores = "Jen_test123"
