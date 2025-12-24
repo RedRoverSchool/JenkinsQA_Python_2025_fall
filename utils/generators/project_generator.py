@@ -15,7 +15,7 @@ class ProjectGenerator:
     def generate_random_text(length: int = 20) -> str:
         text = "abcdefghjkmnoprstqywxyz"
         random_text = ''.join(
-            random.choices(text.title() + text.lower() + " " + text.capitalize(), k=length)
+            random.choices(text.lower() , k=length)
         )
         return f"Description {random_text}"
 
