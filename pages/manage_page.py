@@ -10,4 +10,4 @@ class ManageJenkinsPage(BasePage):
         return text
 
     def get_tools_and_actions_item_text(self, name:str)-> str:
-        return self.get_text(self.locators.TOOLS_AND_ACTIONS_ITEM(name))
+        return self.get_text(self.locators.SYSTEM_CONFIGURATION_LOC(name))
