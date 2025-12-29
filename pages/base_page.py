@@ -29,4 +29,3 @@ class BasePage:
 
     def clear(self, locator: str):
         self.page.locator(locator).clear()
-

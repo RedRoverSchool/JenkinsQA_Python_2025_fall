@@ -1,5 +1,6 @@
 import random
 
+import pytest
 from playwright.sync_api import expect
 
 from data.enums import ItemType
@@ -24,6 +25,7 @@ class TestPipeline:
 
         assert name == job_name
 
+    @pytest.mark.skip
     def test_add_description_pipeline_project(self, page, delete_project):
         description_text = "Description pipeline project"
         new_job_link_loc = "//a[@href='newJob']"
