@@ -2,7 +2,7 @@ class BaseLocators:
     NEW_ITEM_BUTTON = "a[href='/view/all/newJob']"
     OK_BUTTON = "button#ok-button"
     SAVE_BUTTON = "button[name='Submit']"
-    NAME_OF_CREATED_PROJECT = lambda job_name: f"td a[href='job/{job_name}/']"
+    NAME_OF_CREATED_PROJECT =  lambda job_name: f"td a[href='job/{job_name}/']"
 
     class BaseConfigurationPageLocators:
         TEXTAREA_DESCRIPTION = "//div[normalize-space()='Description']/following-sibling::div[1]//textarea"
