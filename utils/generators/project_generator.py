@@ -19,6 +19,10 @@ class ProjectGenerator:
         )
         return f"Description {random_text}"
 
+    @staticmethod
+    def generate_pipeline_name() -> str:
+        return f"Pipeline_{random.randint(1, 999_999)}"
+
 
 
 
