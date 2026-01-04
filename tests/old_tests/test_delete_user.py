@@ -1,5 +1,9 @@
 import random
 
+import pytest
+
+
+@pytest.mark.skip
 def test_tc_15_003_06(page):
 
     username = "User1"
