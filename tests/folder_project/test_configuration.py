@@ -1,17 +1,26 @@
+from data.endpoints import Endpoints
 from data.enums import ItemType
+from pages.base_configuration_page import BaseConfigurationPage
+from pages.base_project_page import BaseProjectPage
+from utils.generators.project_generator import ProjectGenerator
 
 
 class TestConfiguration:
-    FOLDER_NAME = "folder"
-    DESCRIPTION = "Lorem ipsum and bla bla bla bla and etc"
+    generator = ProjectGenerator()
+    endpoints = Endpoints()
+    item_type = ItemType
+    description_text = generator.generate_random_text(10) # generate random text for description
 
-    def test_apply_configuration(self,create_job, base_configuration_page, base_project_page):
+
+    def test_apply_configuration(self,create_job, open_page):
         '''TC_05.004.01 | Folder Configuration > Save or Apply> Apply configuration'''
 
-        create_job(self.FOLDER_NAME, ItemType.FOLDER)
-        base_configuration_page.go_to_configuration_page(self.FOLDER_NAME)
-        base_configuration_page.set_or_change_description(self.DESCRIPTION)
-        base_configuration_page.apply_changes()
-        base_configuration_page.go_to_project_page(self.FOLDER_NAME)
+        job_name = create_job(self.generator.generate_folder_name(), ItemType.FOLDER)
+        configuration_page = open_page(BaseConfigurationPage, self.endpoints.JOB_CONFIGURE_URL(
+            job_name))
+        configuration_page.set_or_change_description(self.description_text)
+        configuration_page.apply_changes()
+        base_folder_page = open_page(BaseProjectPage, self.endpoints.JOB_STATUS_PAGE_URL(
+            job_name))
 
-        assert base_project_page.description_text(self.DESCRIPTION) == self.DESCRIPTION
+        assert base_folder_page.description_text(self.description_text) == self.description_text
