@@ -113,14 +113,6 @@ def delete_jobs_after_all_tests():
     yield
     delete_jobs()
 
-@pytest.fixture()
-def base_configuration_page(page:Page):
-    return BaseConfigurationPage(page)
-
-@pytest.fixture()
-def base_project_page(page:Page):
-    return BaseProjectPage(page)
-
 @pytest.fixture
 def create_user_fixture():
     user_info = next(user_generator.create_user_generator())
