@@ -1,0 +1,28 @@
+<org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject plugin="workflow-multibranch@821.vc3b_4ea_780798" katalonExtensionId="ljdobmomdgdljniojadhoplhkpialdid">
+<actions/>
+<description/>
+<properties/>
+<folderViews class="jenkins.branch.MultiBranchProjectViewHolder" plugin="branch-api@2.1268.v044a_87612da_8">
+<owner class="org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject" reference="../.."/>
+</folderViews>
+<healthMetrics/>
+<icon class="jenkins.branch.MetadataActionFolderIcon" plugin="branch-api@2.1268.v044a_87612da_8">
+<owner class="org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject" reference="../.."/>
+</icon>
+<orphanedItemStrategy class="com.cloudbees.hudson.plugins.folder.computed.DefaultOrphanedItemStrategy" plugin="cloudbees-folder@6.1053.vd62fb_b_f7367b_">
+<pruneDeadBranches>true</pruneDeadBranches>
+<daysToKeep>-1</daysToKeep>
+<numToKeep>-1</numToKeep>
+<abortBuilds>false</abortBuilds>
+</orphanedItemStrategy>
+<triggers/>
+<disabled>false</disabled>
+<sources class="jenkins.branch.MultiBranchProject$BranchSourceList" plugin="branch-api@2.1268.v044a_87612da_8">
+<data/>
+<owner class="org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject" reference="../.."/>
+</sources>
+<factory class="org.jenkinsci.plugins.workflow.multibranch.WorkflowBranchProjectFactory">
+<owner class="org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject" reference="../.."/>
+<scriptPath>Jenkinsfile</scriptPath>
+</factory>
+</org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject>

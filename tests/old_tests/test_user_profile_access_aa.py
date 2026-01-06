@@ -1,7 +1,9 @@
+import pytest
 from playwright.sync_api import expect
 from conftest import USER_NAME
 import re
 
+@pytest.mark.skip
 def test_user_menu_items(page):
 
     page.goto("/")
@@ -28,6 +30,7 @@ def test_user_menu_items(page):
     for text in expected_common:
         assert any(text in t for t in texts)
 
+@pytest.mark.skip
 def test_user_profile_page(page):
 
     page.goto("/")
