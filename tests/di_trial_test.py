@@ -12,7 +12,6 @@ def test_empty_field(page):
     page.get_by_text("Folder", exact=True).click()
     time.sleep(4)
     locator_error = "div[id='itemname-required']"
-
     assert page.locator(locator_error).inner_text() =="» This field cannot be empty, please enter a valid name"
 
 
