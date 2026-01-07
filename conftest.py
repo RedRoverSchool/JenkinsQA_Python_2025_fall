@@ -139,3 +139,5 @@ def open_page(page):
         class_page.open()
         return class_page
     return _open
+
+
