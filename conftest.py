@@ -5,11 +5,10 @@ from playwright.sync_api import Playwright, ViewportSize, Page
 from dotenv import load_dotenv
 
 from data.user.user import create_user_script, delete_user_script
-from pages.base_configuration_page import BaseConfigurationPage
-from pages.base_project_page import BaseProjectPage
 from utils.functions import load_xml, execute_user_groovy_script
 from utils.generators.user_generator import UserGenerator
 from utils.jenkins_client import JenkinsAPI
+import allure
 
 load_dotenv()
 user_generator = UserGenerator()
@@ -72,13 +71,16 @@ def page(playwright: Playwright, get_cookie):
 @pytest.fixture
 def create_job(jenkins):
     def _create(name, job_type=None, folder=None):
-        xml = load_xml(job_type)
-        jenkins.create_item_from_file(
-            name=name,
-            config_xml=xml,
-            folder=folder
-        )
-        return name
+        with allure.step(f"Create job: {name}"):
+            xml = load_xml(job_type)
+            jenkins.create_item_from_file(
+                name=name,
+                config_xml=xml,
+                folder=folder
+            )
+
+            return name
+
     return _create
 
 def get_all_jobs():
@@ -135,7 +137,9 @@ def create_user_fixture():
 @pytest.fixture
 def open_page(page):
     def _open(page_class, url):
-        class_page = page_class(page, url)
-        class_page.open()
-        return class_page
+        with allure.step(f"Open page with URL: {url}"):
+            class_page = page_class(page, url)
+            class_page.open()
+            return class_page
+
     return _open

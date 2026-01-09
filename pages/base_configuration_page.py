@@ -1,3 +1,5 @@
+import allure
+
 from data.data import BaseConfigurationPageData
 from pages.base_page import BasePage
 from locators.base_locators import BaseLocators
@@ -24,7 +26,8 @@ class BaseConfigurationPage(BasePage):
         )
 
     def save_configuration(self):
-        self.click(self.locators.SAVE_BUTTON)
+        with allure.step("Save changes on configuration page"):
+            self.click(self.locators.SAVE_BUTTON)
 
     def assert_project_disabled_message_is_displayed(self):
         assert self.is_visible(

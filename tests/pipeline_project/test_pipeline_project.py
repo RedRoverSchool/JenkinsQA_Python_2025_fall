@@ -1,3 +1,5 @@
+import allure
+
 from data.enums import ItemType
 from data.endpoints import Endpoints
 from pages.base_configuration_page import BaseConfigurationPage
@@ -5,12 +7,14 @@ from pages.base_project_page import BaseProjectPage
 from pages.jenkins_base_page import JenkinsBasePage
 from utils.generators.project_generator import ProjectGenerator
 
-
+@allure.epic("Pipeline")
+@allure.feature("Essential features in pipeline")
 class TestPipeline:
     generator = ProjectGenerator()
     endpoints = Endpoints()
     item_type = ItemType
 
+    @allure.story("Create pipeline")
     def test_create_pipeline_project(self, create_job, open_page):
         job_name = create_job(self.generator.generate_folder_name(), ItemType.PIPELINE)
         folder_project = open_page(JenkinsBasePage, self.endpoints.VIEW_ALL_PAGE_URL)
@@ -18,6 +22,7 @@ class TestPipeline:
 
         assert name == job_name
 
+    @allure.story("Create pipeline with description")
     def test_tc_03_002_01_create_project_with_description(self, page, create_job, open_page):
         """Add description to the new project"""
         description_text = self.generator.generate_random_text(10) # generate random text for description
@@ -32,6 +37,7 @@ class TestPipeline:
 
         assert text == description_text
 
+    @allure.story("Add description to the existing pipeline job")
     def test_rf_tc_03_002_02_add_description(self, create_job, open_page):
         """Add description to the existing project"""
         description_text = self.generator.generate_random_text(10)  # generate random text for description
