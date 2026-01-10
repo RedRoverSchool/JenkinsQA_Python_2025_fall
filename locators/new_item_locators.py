@@ -6,3 +6,6 @@ class NewItemLocators(BaseLocators):
     NEW_ITEM_BTN = "a[href='/view/all/newJob']"
     SELECT_ITEM_TYPE_SECTION = 'div#items'
     ITEM_TYPES = 'div#items li'
+
+    NAME_FIELD = "input#name"
+    PIPELINE_TYPE = "li.org_jenkinsci_plugins_workflow_job_WorkflowJob"
