@@ -5,4 +5,4 @@ requests==2.32.5
 python-dotenv==1.2.1
 faker==39.0.0
 allure-pytest==2.15.3
-
+allure-python-commons~=2.15.3
