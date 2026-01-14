@@ -12,3 +12,6 @@ class BaseLocators:
         TOGGLE_LABEL = "label[for='enable-disable-project']"
         DISABLED_MESSAGE_TEXT = "This project is currently disabled"
         DISABLED_MESSAGE_TEXT_LOC = "form#enable-project"
+
+        # Side menu
+        HEALTH_METRICS = "button[data-section-id='health-metrics']"
