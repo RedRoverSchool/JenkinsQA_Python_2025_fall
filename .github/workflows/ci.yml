@@ -7,10 +7,8 @@ on:
 
 jobs:
   run-pytest:
-    name: 'run pytest tests'
+    name: Run Playwright tests
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
 
     env:
       JENKINS_USERNAME: ${{ secrets.ADMIN_USERNAME }}
@@ -23,6 +21,17 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          playwright install --with-deps
+
       - name: Detect changed test files
         id: changed-tests
         uses: step-security/changed-files@v45
@@ -30,25 +39,22 @@ jobs:
           files: |
             tests/**/*.py
 
-      - name: Save changed tests list
+      - name: Set test paths
         run: |
           if [ "${{ steps.changed-tests.outputs.any_changed }}" = "true" ]; then
-            echo "CHANGED_TESTS=${{ steps.changed-tests.outputs.all_changed_files }}" >> $GITHUB_ENV
+            echo "TEST_PATHS=${{ steps.changed-tests.outputs.all_changed_files }}" >> $GITHUB_ENV
           else
-            echo "No test changes — running ALL tests"
-            echo "CHANGED_TESTS=\"tests\"" >> $GITHUB_ENV
+            echo "TEST_PATHS=tests" >> $GITHUB_ENV
           fi
 
-      - name: Create .env file for docker-compose
+      - name: Create .env file
         run: |
-          echo "JENKINS_USERNAME=${JENKINS_USERNAME}" >> .env
+          echo "JENKINS_USERNAME=${JENKINS_USERNAME}" > .env
           echo "JENKINS_PASSWORD=${JENKINS_PASSWORD}" >> .env
           echo "HOST=${HOST}" >> .env
           echo "PORT=${PORT}" >> .env
           echo "HEADLESS_MODE=${HEADLESS_MODE}" >> .env
 
-      - name: Run Docker Compose (only changed tests)
-        env:
-          TESTS: ${{ env.CHANGED_TESTS }}
+      - name: Run pytest
         run: |
-            docker compose up --build --abort-on-container-exit --exit-code-from tests
+          pytest $TEST_PATHS -vv -p no:cacheprovider
