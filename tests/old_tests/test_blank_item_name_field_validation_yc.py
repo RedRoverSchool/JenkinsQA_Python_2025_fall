@@ -47,8 +47,3 @@ def test_tc_01_001_04(page):
     page.get_by_text(item_type_text_organization_folder, exact=True).click()
     expect(page.locator(validation_message)).to_be_visible()
     expect(page.locator(ok_btn_loc)).to_be_disabled()
-
-
-
-
-
