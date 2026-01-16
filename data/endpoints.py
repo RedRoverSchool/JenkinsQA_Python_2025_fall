@@ -6,3 +6,4 @@ class Endpoints:
     MANAGE_URL = "/manage"
     SECURITY_REALM_URL = "/securityRealm/"
     VIEW_ALL_PAGE_URL = "/view/all/"
+    ALL_NEW_JOB_URL = "/view/all/newJob"
