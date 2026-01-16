@@ -23,4 +23,3 @@ class TestBlankFieldValidation:
         page.get_by_text(item_type, exact=True).click()
         expect(page.get_by_text(NewItemPageData.EMPTY_ITEM_NAME_VALIDATION_TEXT, exact=True)).to_be_visible()
         expect(page.locator(BaseLocators.OK_BUTTON)).to_be_disabled()
-

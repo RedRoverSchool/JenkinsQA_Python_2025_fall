@@ -16,7 +16,6 @@ def test_tc_01_001_04(page):
     ok_btn_loc = "button[id='ok-button']"
     validation_message = "#itemname-required"
 
-
     page.locator(new_item_btn_loc).click()
 
     page.get_by_text(item_type_text_freestyle_project, exact=True).click()
