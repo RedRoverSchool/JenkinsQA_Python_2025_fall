@@ -9,3 +9,5 @@ class NewItemLocators(BaseLocators):
 
     NAME_FIELD = "input#name"
     PIPELINE_TYPE = "li.org_jenkinsci_plugins_workflow_job_WorkflowJob"
+    FREESTYLE_PROJECT_TYPE = ".hudson_model_FreeStyleProject"
+    ERROR_MESSAGE = "#itemname-invalid"
