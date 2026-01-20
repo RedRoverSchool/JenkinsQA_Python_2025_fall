@@ -48,3 +48,9 @@ class BaseConfigurationPage(BasePage):
     def expect_locator_enabled(self, loc):
         with allure.step("Expect locator is enabled"):
             expect(self.page.locator(loc)).to_be_enabled()
+
+    def get_inner_text(self, loc):
+        with allure.step(f"Inner text"):
+           text = self.page.locator(loc).all_inner_texts()
+
+           return text
