@@ -21,4 +21,4 @@ class TestErrorMessageItemName:
         all_job_page = open_page(NewItemPage, self.endpoints.ALL_NEW_JOB_URL)
         error_message = all_job_page.create_project_with_existing_name(job_name)
 
-        assert error_message == f"» A job already exists with the name ‘{self.item_name}’"
+        assert error_message == f"» A job already exists with the name ‘{job_name}’"
