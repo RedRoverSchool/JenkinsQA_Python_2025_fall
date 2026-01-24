@@ -1,10 +1,10 @@
 import allure
 
-from locators.base_locators import BaseLocators
 from locators.new_item_locators import NewItemLocators
 from pages.base_page import BasePage
 
 loc = NewItemLocators()
+
 class NewItemPage(BasePage):
 
     def open_new_item_page(self):
@@ -19,8 +19,3 @@ class NewItemPage(BasePage):
         with allure.step(f"Enter existing item name: {name}"):
             self.page.fill(loc.NAME_FIELD, name)
             return self.page.locator(NewItemLocators.ERROR_MESSAGE).inner_text()
-
-
-
-
-
