@@ -5,6 +5,7 @@ from pages.base_page import BasePage
 
 loc = NewItemLocators()
 
+
 class NewItemPage(BasePage):
 
     def open_new_item_page(self):
@@ -18,4 +19,6 @@ class NewItemPage(BasePage):
     def create_project_with_existing_name(self, name):
         with allure.step(f"Enter existing item name: {name}"):
             self.page.fill(loc.NAME_FIELD, name)
-            return self.page.locator(NewItemLocators.ERROR_MESSAGE).inner_text()
+            error = self.page.locator(NewItemLocators.ERROR_MESSAGE)
+            error.hover()
+            return error.inner_text()
