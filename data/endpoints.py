@@ -7,3 +7,5 @@ class Endpoints:
     SECURITY_REALM_URL = "/securityRealm/"
     VIEW_ALL_PAGE_URL = "/view/all/"
     ALL_NEW_JOB_URL = "/view/all/newJob"
+
+    FOLDER_NEW_ITEM_URL = lambda self, folder_name: f"/job/{folder_name}/newJob"

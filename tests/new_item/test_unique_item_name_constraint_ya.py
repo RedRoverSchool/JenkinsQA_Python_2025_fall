@@ -1,16 +1,33 @@
 import allure
+
+from data.endpoints import Endpoints
+from data.enums import ItemType
+from pages.new_item_page import NewItemPage
 from locators.new_item_locators import NewItemLocators
-from .unique_item_name_class_test import TestUniqueItemName
+from utils.assertions import Assertions
+from utils.generators.project_generator import ProjectGenerator
 
 
-@allure.title("TC_01.002.06 | New Item > Folder > Verify unique item name constraint inside a folder")
-def test_unique_item_name_constraint(page, create_job, open_page):
-    name_validator = TestUniqueItemName()
+@allure.epic("New Item")
+@allure.feature("Item name validation")
+class TestUniqueItemName:
+    endpoints = Endpoints()
+    assertions = Assertions()
+    generator = ProjectGenerator()
 
-    folder, freestyle = name_validator.setup_unique_item_name(create_job)
-    duplicate_page = name_validator.attempt_duplicate_creation(open_page, folder, freestyle)
+    @allure.story("Unique item name constraint inside a folder")
+    @allure.title("TC_01.002.06 Verify unique item name constraint inside a folder")
+    def test_unique_item_name_constraint(self, page, create_job, open_page):
+        folder_name = self.generator.generate_folder_name()
+        freestyle_name = self.generator.generate_freestyle_name()
 
-    page.wait_for_timeout(3000)
+        create_job(name=folder_name, job_type=ItemType.FOLDER)
+        create_job(name=freestyle_name, job_type=ItemType.FREESTYLE, folder=folder_name)
 
-    error = duplicate_page.get_text(NewItemLocators.ERROR_MESSAGE)
-    assert "already exists" in error, f"Expected 'already exists' in: {error}"
+        duplicate_page = open_page(NewItemPage, f"{self.endpoints.JOB_STATUS_PAGE_URL(folder_name)}/newJob")
+        duplicate_page.fill(NewItemLocators.NAME_FIELD, freestyle_name)
+
+        duplicate_page.wait_for_visible(NewItemLocators.ERROR_MESSAGE, timeout=5000)
+
+        error = duplicate_page.get_text(NewItemLocators.ERROR_MESSAGE)
+        self.assertions.assert_text("already exists", error)
