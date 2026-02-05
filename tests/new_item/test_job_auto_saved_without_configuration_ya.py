@@ -11,6 +11,3 @@ def test_tc_01_004_04_job_auto_saved_without_configuration(create_job, page):
     page.goto(Endpoints().VIEW_ALL_PAGE_URL)
 
     assert pipeline_name in page.content()
-
-
-

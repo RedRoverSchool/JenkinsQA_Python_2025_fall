@@ -11,8 +11,3 @@ def test_tc_01_002_04_new_folder_is_empty_by_default(create_job, page):
     page.goto(Endpoints().JOB_STATUS_PAGE_URL(folder_name))
 
     expect(page.get_by_text("This folder is empty")).to_be_visible()
-
-
-
-
-
